@@ -10,7 +10,7 @@ def clearScreen():
 def welcome():
     clearScreen()
     print("|-------------------------------------------------------------------------|")
-    print("|-------------Selamat Datang Di Rumah Sakit Dika Hospital-----------------|")
+    print("|--------------------Selamat Datang Di Dika Hospital----------------------|")
     print("|-----------------------INI ADALAH TAMPILAN ADMIN-------------------------|")
     print("|-------------------------------------------------------------------------|")
     input("Tekan ENTER untuk melanjutkan...")
@@ -42,7 +42,7 @@ def inputGolonganDarah():
         if gd in validGolongan:
             return gd
         else:
-            print("Input Tidak Valid Dan Golongan Darah TIdak Exist")
+            print("Golongan Darah TIdak Valid")
 
 # ----------------------------- FUNGSI LIHAT -----------------------------
 def lihatSemua():
@@ -65,7 +65,8 @@ def cariPasien():
         print(f"- Gender: {data['jenisKelamin']}")
         print(f"- Golongan Darah: {data['golonganDarah']}")
     else:
-        print("\nPasien dengan ID tersebut tidak ditemukan.")    
+        print("\nPasien dengan ID tersebut tidak ditemukan.")
+        
 
 # ----------------------------- FUNGSI TAMBAH -----------------------------
 def tambahData():
@@ -86,6 +87,7 @@ def tambahData():
     golonganDarah = inputGolonganDarah()
     
     # tampilkan preview data
+    clearScreen()
     print("\n----------------------------- Preview Data -----------------------------")
     print(f"ID: {idPasien}")
     print(f"Nama: {nama}")
@@ -105,6 +107,7 @@ def tambahData():
         }
         clearScreen()
         print(f"\n================ Data pasien {nama} berhasil ditambahkan =================")
+        input("Tekan ENTER untuk kembali..")
     else:
         clearScreen()
         print("Penambahan data dibatalkan.")
@@ -113,7 +116,7 @@ def tambahData():
 
 # ----------------------------- FUNGSI HAPUS -----------------------------
 def hapusData():
-    idPasien = input("Masukkan ID Pasien yang ingin dihapus: ").upper()
+    idPasien = input("Masukkan ID Pasien yang ingin dihapus (Format: P00X): ").upper()
     if idPasien in pasien:
         konfirmasi = input(f"Apakah yakin ingin menghapus pasien {pasien[idPasien]['nama']}? (y/n): ").lower()
         if konfirmasi == 'y':
@@ -126,7 +129,7 @@ def hapusData():
 
 # ----------------------------- FUNGSI UPDATE -----------------------------
 def ubahData():
-    idPasien = input("Masukkan ID Pasien yang ingin diupdate: ").upper()
+    idPasien = input("Masukkan ID Pasien yang ingin diupdate (Format: P00X): ").upper()
     if idPasien in pasien:
         print(f"Data lama: {pasien[idPasien]}")
         nama = input("Masukkan nama baru: ").capitalize()
@@ -140,6 +143,7 @@ def ubahData():
         golonganDarah = inputGolonganDarah()
         
     # tampilkan preview data
+    clearScreen()
     print("\n----------------------------- Preview Data -----------------------------")
     print(f"ID: {idPasien}")
     print(f"Nama: {nama}")
@@ -162,7 +166,6 @@ def ubahData():
     else:
         clearScreen()
         print("Pembaruan data dibatalkan.")
-        input("Tekan ENTER untuk kembali..")
 
 # ----------------------------- FUNGSI RATA-RATA -----------------------------
 def hitungRataRata():
@@ -176,6 +179,7 @@ def hitungRataRata():
 # ----------------------------- SUB MENU --------------------------------------
 def subMenuLihat():
     while True:
+        clearScreen()
         print("\n-------------------------[Lihat Data Pasien]---------------------------- ")
         print("1. Lihat semua pasien")
         print("2. Cari pasien berdasarkan ID")
@@ -195,6 +199,7 @@ def subMenuLihat():
 
 def subMenuTambah():
     while True:
+        clearScreen()
         print("\n-------------------------[Tambah Data Pasien]---------------------------- ")
         print("1. Tambah pasien")
         print("2. Lihat semua pasien")
@@ -214,6 +219,7 @@ def subMenuTambah():
 
 def subMenuHapus():
     while True:
+        clearScreen()
         print("\n-------------------------[Hapus Data Pasien]---------------------------- ")
         print("1. Hapus pasien berdasarkan ID")
         print("2. Lihat semua pasien")
@@ -233,6 +239,7 @@ def subMenuHapus():
 
 def subMenuUpdate():
     while True:
+        clearScreen()
         print("\n-------------------------[Update Data Pasien]---------------------------- ")
         print("1. Update pasien berdasarkan ID")
         print("2. Lihat semua data")
@@ -253,6 +260,7 @@ def subMenuUpdate():
 
 # ----------------------------- MENU UTAMA -----------------------------
 def displayMenu():
+    clearScreen()
     print("\n------------------------------[Menu Utama]--------------------------------")
     print("1. Lihat Data Pasien")
     print("2. Tambah Data Pasien")
