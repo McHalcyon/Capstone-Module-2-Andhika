@@ -54,22 +54,22 @@ def lihatSemua():
             print(f"ID: {id}, Nama: {data['nama']}, Umur: {data['umur']}, "f"Alamat: {data['alamat']}, Gender: {data['jenisKelamin']}, "f"Golongan Darah: {data['golonganDarah']}")
 
 def cariPasien():
-    idPasien = input("Masukkan ID Pasien: ")
-    found = None
-    for key in pasien.keys():
-        if key.lower() == idPasien.lower():
-            found = key
-            break
-    if found:
-        data = pasien[found]
-        print(f"Pasien Ditemukan -> {found} | {data}")
+    idPasien = input("Masukan ID Pasien: ").upper()
+    if idPasien in pasien:
+        data = pasien[idPasien]
+        print("\nPasien ditemukan:")
+        print(f"- ID: {idPasien}")
+        print(f"- Nama: {data['nama']}")
+        print(f"- Umur: {data['umur']}")
+        print(f"- Alamat: {data['alamat']}")
+        print(f"- Gender: {data['jenisKelamin']}")
+        print(f"- Golongan Darah: {data['golonganDarah']}")
     else:
-        print("Pasien Tidak Ditemukan")
-    
+        print("\nPasien dengan ID tersebut tidak ditemukan.")    
 
 # ----------------------------- FUNGSI TAMBAH -----------------------------
 def tambahData():
-    idPasien = input("Masukkan ID Pasien baru: ").upper()
+    idPasien = input("Masukkan ID Pasien baru (Format: P00X): ").upper()
     for key in pasien.keys():
         if key.lower() == idPasien.lower():
             print("ID sudah terdaftar")
@@ -103,14 +103,17 @@ def tambahData():
             "jenisKelamin": jenisKelamin,
             "golonganDarah": golonganDarah
         }
-        print(f"Data pasien {nama} berhasil ditambahkan.")
+        clearScreen()
+        print(f"\n================ Data pasien {nama} berhasil ditambahkan =================")
     else:
+        clearScreen()
         print("Penambahan data dibatalkan.")
+        input("Tekan ENTER untuk kembali..")
 
 
 # ----------------------------- FUNGSI HAPUS -----------------------------
 def hapusData():
-    idPasien = input("Masukkan ID Pasien yang ingin dihapus: ")
+    idPasien = input("Masukkan ID Pasien yang ingin dihapus: ").upper()
     if idPasien in pasien:
         konfirmasi = input(f"Apakah yakin ingin menghapus pasien {pasien[idPasien]['nama']}? (y/n): ").lower()
         if konfirmasi == 'y':
@@ -123,19 +126,30 @@ def hapusData():
 
 # ----------------------------- FUNGSI UPDATE -----------------------------
 def ubahData():
-    idPasien = input("Masukkan ID Pasien yang ingin diupdate: ")
+    idPasien = input("Masukkan ID Pasien yang ingin diupdate: ").upper()
     if idPasien in pasien:
         print(f"Data lama: {pasien[idPasien]}")
-        nama = input("Masukkan nama baru: ")
+        nama = input("Masukkan nama baru: ").capitalize()
         try:
             umur = int(input("Masukkan umur baru: "))
         except ValueError:
             print("Umur harus angka!")
             return
-        alamat = input("Masukkan alamat baru: ")
-        jenisKelamin = input("Masukkan jenis kelamin baru: ")
-        golonganDarah = input("Masukkan golongan darah baru: ")
+        alamat = input("Masukkan alamat baru: ").capitalize()
+        jenisKelamin = inputJenisKelamin()
+        golonganDarah = inputGolonganDarah()
         
+    # tampilkan preview data
+    print("\n----------------------------- Preview Data -----------------------------")
+    print(f"ID: {idPasien}")
+    print(f"Nama: {nama}")
+    print(f"Umur: {umur}")
+    print(f"Alamat: {alamat}")
+    print(f"Jenis Kelamin: {jenisKelamin}")
+    print(f"Golongan Darah: {golonganDarah}")
+    
+    konfirmasi = input("Apakah data sudah benar dan ingin diupdate? (y/n): ").lower()
+    if konfirmasi == 'y':
         pasien[idPasien] = {
             "nama": nama,
             "umur": umur,
@@ -143,9 +157,12 @@ def ubahData():
             "jenisKelamin": jenisKelamin,
             "golonganDarah": golonganDarah
         }
-        print("Data pasien berhasil diperbarui.")
+        clearScreen()
+        print(f"\n============= Data pasien {nama} berhasil diperbarui ===============")
     else:
-        print("Pasien tidak ditemukan.")
+        clearScreen()
+        print("Pembaruan data dibatalkan.")
+        input("Tekan ENTER untuk kembali..")
 
 # ----------------------------- FUNGSI RATA-RATA -----------------------------
 def hitungRataRata():
@@ -153,9 +170,10 @@ def hitungRataRata():
         print("Data kosong, tidak bisa menghitung rata-rata.")
     else:
         avg = mean([data['umur'] for data in pasien.values()])
+        clearScreen()
         print(f"Rata-rata umur pasien: {avg:.2f} tahun")
 
-# ----------------------------- SUB MENU -----------------------------
+# ----------------------------- SUB MENU --------------------------------------
 def subMenuLihat():
     while True:
         print("\n-------------------------[Lihat Data Pasien]---------------------------- ")
@@ -179,41 +197,56 @@ def subMenuTambah():
     while True:
         print("\n-------------------------[Tambah Data Pasien]---------------------------- ")
         print("1. Tambah pasien")
-        print("2. Kembali ke menu utama")
+        print("2. Lihat semua pasien")
+        print("3. Kembali ke menu utama")
         pilih = input("Pilih (1-2): ")
         clearScreen()
         if pilih == '1':
             tambahData()
         elif pilih == '2':
+            lihatSemua()
+            input("\nTekan Enter untuk kembali...")
+            clearScreen()
+        elif pilih == '3':
             break
         else:
             print("Pilihan tidak valid.")
 
 def subMenuHapus():
     while True:
-        print(print("\n-------------------------[Hapus Data Pasien]---------------------------- "))
+        print("\n-------------------------[Hapus Data Pasien]---------------------------- ")
         print("1. Hapus pasien berdasarkan ID")
-        print("2. Kembali ke menu utama")
+        print("2. Lihat semua pasien")
+        print("3. Kembali ke menu utama")
         pilih = input("Pilih (1-2): ")
         clearScreen()
         if pilih == '1':
             hapusData()
         elif pilih == '2':
+            lihatSemua()
+            input("\nTekan Enter untuk kembali...")
+            clearScreen()
+        elif pilih == '3':
             break
         else:
             print("Pilihan tidak valid.")
 
 def subMenuUpdate():
     while True:
-        print(print("\n-------------------------[Update Data Pasien]---------------------------- "))
+        print("\n-------------------------[Update Data Pasien]---------------------------- ")
         print("1. Update pasien berdasarkan ID")
-        print("2. Kembali ke menu utama")
+        print("2. Lihat semua data")
+        print("3. Kembali ke menu utama")
         pilih = input("Pilih (1-2): ")
         clearScreen()
         if pilih == '1':
             ubahData()
             input("\nTekan Enter untuk kembali...")
         elif pilih == '2':
+            lihatSemua()
+            input("\nTekan Enter untuk kembali...")
+            clearScreen()
+        elif pilih == '3':
             break
         else:
             print("Pilihan tidak valid.")
