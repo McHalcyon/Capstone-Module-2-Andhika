@@ -66,7 +66,25 @@ def cariPasien():
         print(f"- Golongan Darah: {data['golonganDarah']}")
     else:
         print("\nPasien dengan ID tersebut tidak ditemukan.")
-        
+
+def cariPasienNama():
+    namaCari = input("Masukkan nama pasien yang dicari: ").lower()
+    hasil = []
+    for idPasien, data in pasien.items():
+        if namaCari in data['nama'].lower():
+            hasil.append((idPasien, data))
+    if hasil:
+        print("\nPasien ditemukan:")
+        for idPasien, data in hasil:
+            print(f"- ID: {idPasien}")
+            print(f"- Nama: {data['nama']}")
+            print(f"- Umur: {data['umur']}")
+            print(f"- Alamat: {data['alamat']}")
+            print(f"- Gender: {data['jenisKelamin']}")
+            print(f"- Golongan Darah: {data['golonganDarah']}\n")
+    else:
+        print("\nPasien dengan nama tersebut tidak ditemukan.")
+
 
 # ----------------------------- FUNGSI TAMBAH -----------------------------
 def tambahData():
@@ -183,8 +201,9 @@ def subMenuLihat():
         print("\n-------------------------[Lihat Data Pasien]---------------------------- ")
         print("1. Lihat semua pasien")
         print("2. Cari pasien berdasarkan ID")
-        print("3. Kembali ke menu utama")
-        pilih = input("Pilih (1-3): ")
+        print("3. Cari pasien berdasarkan Nama")
+        print("4. Kembali ke menu utama")
+        pilih = input("Pilih (1-4): ")
         clearScreen()
         if pilih == '1':
             lihatSemua()
@@ -193,6 +212,9 @@ def subMenuLihat():
             cariPasien()
             input("\nTekan Enter untuk kembali...")
         elif pilih == '3':
+            cariPasienNama()
+            input("\nTekan Enter untuk kembali...")
+        elif pilih == '4':
             break
         else:
             print("Pilihan tidak valid.")
@@ -204,7 +226,7 @@ def subMenuTambah():
         print("1. Tambah pasien")
         print("2. Lihat semua pasien")
         print("3. Kembali ke menu utama")
-        pilih = input("Pilih (1-2): ")
+        pilih = input("Pilih (1-3): ")
         clearScreen()
         if pilih == '1':
             tambahData()
@@ -224,7 +246,7 @@ def subMenuHapus():
         print("1. Hapus pasien berdasarkan ID")
         print("2. Lihat semua pasien")
         print("3. Kembali ke menu utama")
-        pilih = input("Pilih (1-2): ")
+        pilih = input("Pilih (1-3): ")
         clearScreen()
         if pilih == '1':
             hapusData()
@@ -244,7 +266,7 @@ def subMenuUpdate():
         print("1. Update pasien berdasarkan ID")
         print("2. Lihat semua data")
         print("3. Kembali ke menu utama")
-        pilih = input("Pilih (1-2): ")
+        pilih = input("Pilih (1-3): ")
         clearScreen()
         if pilih == '1':
             ubahData()
