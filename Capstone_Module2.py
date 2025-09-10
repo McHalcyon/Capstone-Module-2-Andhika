@@ -106,7 +106,7 @@ def tambahData():
     try:
         umur = int(input("Masukkan umur pasien: "))
     except ValueError:
-        print("Umur harus berupa angka!")
+        input("Umur harus berupa angka!\n Tekan ENTER untuk kembali...")
         return
     alamat = input("Masukkan alamat pasien: ").capitalize()
     jenisKelamin = inputJenisKelamin()
