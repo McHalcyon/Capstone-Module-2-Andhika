@@ -23,6 +23,7 @@ pasien = {
     "P001": {"nama": "Andi", "umur": 25, "alamat": "Jakarta", "jenisKelamin": "Laki-laki", "golonganDarah": "O"},
     "P002": {"nama": "Budi", "umur": 30, "alamat": "Bandung", "jenisKelamin": "Laki-laki", "golonganDarah": "A"},
     "P003": {"nama": "Citra", "umur": 22, "alamat": "Surabaya", "jenisKelamin": "Perempuan", "golonganDarah": "B"},
+    "P004": {"nama": "Kujeng", "umur": 27, "alamat": "Jakarta", "jenisKelamin": "Laki-laki", "golonganDarah": "O"},
 }
 
 # ----------------------------- FUNGSI EXTRA -----------------------------
@@ -384,7 +385,7 @@ def displayMenu():
 def main():
     while True:
         displayMenu()
-        choice = input("Pilih menu (1-6): ")
+        choice = input("Pilih menu (1-7): ")
         clearScreen()
         if choice == '1':
             subMenuLihat()
