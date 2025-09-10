@@ -1,5 +1,6 @@
 from statistics import mean
 import os
+import re
 
 def clearScreen():
     if os.name == 'nt':
@@ -43,6 +44,17 @@ def inputGolonganDarah():
             return gd
         else:
             print("Golongan Darah TIdak Valid")
+
+def inputTambahPasien():
+    while True:
+        idPasien = input("Masukkan ID Pasien (format PXXX, contoh: P001): ").upper()
+        if not re.match(r"^P\d{3}$", idPasien):   #buat validasi format
+            print("Format ID tidak valid! Gunakan format PXXX (contoh: P001, P123).")
+            continue
+        if idPasien in pasien:
+            print("ID pasien sudah ada, gunakan ID lain.")
+            continue
+        break
 
 # ----------------------------- FUNGSI LIHAT -----------------------------
 def lihatSemua():
@@ -88,12 +100,7 @@ def cariPasienNama():
 
 # ----------------------------- FUNGSI TAMBAH -----------------------------
 def tambahData():
-    idPasien = input("Masukkan ID Pasien baru (Format: P00X): ").upper()
-    for key in pasien.keys():
-        if key.lower() == idPasien.lower():
-            print("ID sudah terdaftar")
-            return
-    
+    idPasien = inputTambahPasien()
     nama = input("Masukkan nama pasien: ").capitalize()
     try:
         umur = int(input("Masukkan umur pasien: "))
@@ -194,6 +201,65 @@ def hitungRataRata():
         clearScreen()
         print(f"Rata-rata umur pasien: {avg:.2f} tahun")
 
+# ----------------------------- FUNGSI GRAFIK -----------------------------
+def grafikGolonganDarah():
+    clearScreen()
+    if not pasien:
+        print("Tidak ada data pasien.")
+        return
+    
+    print("\nGrafik Jumlah Pasien Berdasarkan Golongan Darah")
+    print("------------------------------------------------")
+    golDarahCount = {}
+    for data in pasien.values():
+        gol = data['golonganDarah']
+        golDarahCount[gol] = golDarahCount.get(gol, 0) + 1
+
+    for gol, jumlah in golDarahCount.items():
+        print(f"{gol}: {'#' * jumlah} ({jumlah})")
+
+
+def grafikJenisKelamin():
+    clearScreen()
+    if not pasien:
+        print("Tidak ada data pasien.")
+        return
+    
+    print("\nGrafik Jumlah Pasien Berdasarkan Jenis Kelamin")
+    print("------------------------------------------------")
+    genderCount = {"L": 0, "P": 0}
+    
+    for data in pasien.values():
+        gender = data['jenisKelamin'].lower()  
+        if gender in ["l", "laki-laki", "laki"]:  
+            genderCount["L"] += 1
+        elif gender in ["p", "perempuan", "wanita"]:  
+            genderCount["P"] += 1
+    
+    print(f"Laki-laki : {'#' * genderCount['L']} ({genderCount['L']})")
+    print(f"Perempuan : {'#' * genderCount['P']} ({genderCount['P']})")
+
+
+
+def grafikUmur():
+    clearScreen()
+    if not pasien:
+        print("Tidak ada data pasien.")
+        return
+    
+    print("\nGrafik Umur Pasien")
+    print("------------------------------------------------")
+    umurCount = {}
+    for data in pasien.values():
+        try:
+            umur = int(data['umur'])
+            umurCount[umur] = umurCount.get(umur, 0) + 1
+        except:
+            continue
+
+    for umur, jumlah in sorted(umurCount.items()):
+        print(f"Umur {umur}: {'#' * jumlah} ({jumlah})")
+
 # ----------------------------- SUB MENU --------------------------------------
 def subMenuLihat():
     while True:
@@ -280,6 +346,28 @@ def subMenuUpdate():
         else:
             print("Pilihan tidak valid.")
 
+def subMenuStatistik():
+    while True:
+        print("\n-------------------------[Menu Statistik Pasien]---------------------------- ")
+        print("1. Grafik Jumlah Pasien per Golongan Darah ")
+        print("2. Grafik Jumlah Pasien per Jenis Kelamin ")
+        print("3. Grafik Umur Pasien")
+        print("4. Kembali ke Menu Utama")
+        
+        choice = input("Pilih menu (1-4): ")
+        if choice == "1":
+            grafikGolonganDarah()
+        elif choice == "2":
+            grafikJenisKelamin()
+        elif choice == "3":
+            grafikUmur()
+        elif choice == "4":
+            break
+        else:
+            print("Pilihan tidak valid.")
+
+
+
 # ----------------------------- MENU UTAMA -----------------------------
 def displayMenu():
     clearScreen()
@@ -289,7 +377,8 @@ def displayMenu():
     print("3. Hapus Data Pasien")
     print("4. Update Data Pasien")
     print("5. Hitung Rata-rata Umur Pasien")
-    print("6. Keluar")
+    print("6. Statistik")
+    print("7. Keluar")
     print("----------------------------------------------------------------------------")
 
 def main():
@@ -309,6 +398,8 @@ def main():
             hitungRataRata()
             input("\nTekan Enter untuk kembali...")
         elif choice == '6':
+            subMenuStatistik()
+        elif choice == '7':
             print("Terima kasih! Program selesai.")
             break
         else:
