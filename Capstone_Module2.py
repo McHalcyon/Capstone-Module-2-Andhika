@@ -54,7 +54,7 @@ def inputTambahPasien():
         if idPasien in pasien:
             print("ID pasien sudah ada, gunakan ID lain.")
             continue
-        break
+        return idPasien
 
 # ----------------------------- FUNGSI LIHAT -----------------------------
 def lihatSemua():
@@ -231,9 +231,9 @@ def grafikJenisKelamin():
     
     for data in pasien.values():
         gender = data['jenisKelamin'].lower()  
-        if gender in ["l", "laki-laki", "laki"]:  
+        if gender in ["l", "laki-laki",]:  
             genderCount["L"] += 1
-        elif gender in ["p", "perempuan", "wanita"]:  
+        elif gender in ["p", "perempuan",]:  
             genderCount["P"] += 1
     
     print(f"Laki-laki : {'#' * genderCount['L']} ({genderCount['L']})")
